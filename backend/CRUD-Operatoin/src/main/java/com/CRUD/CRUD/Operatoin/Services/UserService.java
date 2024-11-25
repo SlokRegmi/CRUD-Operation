@@ -3,6 +3,7 @@ package com.CRUD.CRUD.Operatoin.Services;
 import com.CRUD.CRUD.Operatoin.Entities.Admin;
 import com.CRUD.CRUD.Operatoin.Entities.User;
 import com.CRUD.CRUD.Operatoin.Repositories.UserRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +49,24 @@ public User updateUser(User user) {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public String deleteUser(User user) {
+        userRepository.delete(user);
+        return "User deleted successfully";
+    }
+
+
+
+    public ResponseEntity<?> userPasswordChange(String email, String password) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            user.setPassword(passwordEncoder.encode(password));
+            userRepository.save(user);
+            return ResponseEntity.ok("Password changed successfully");
+        }
+        return ResponseEntity.badRequest().body("User not found");
     }
 }
 

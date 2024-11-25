@@ -1,7 +1,9 @@
 package com.CRUD.CRUD.Operatoin.Services;
 
+import com.CRUD.CRUD.Operatoin.DTO.RegisterRequestDTO;
 import com.CRUD.CRUD.Operatoin.Entities.Admin;
 import com.CRUD.CRUD.Operatoin.Repositories.AdminRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +56,15 @@ public class AdminService {
 
 
 
-  
 
+    public ResponseEntity<?> handleAdminPasswordChange(String email, String password) {
+        Optional<Admin> adminOpt = adminRepository.findByEmail(email);
+        if (adminOpt.isPresent()) {
+            Admin admin = adminOpt.get();
+            admin.setPassword(passwordEncoder.encode(password));
+            adminRepository.save(admin);
+            return ResponseEntity.ok("Password changed successfully");
+        }
+        return ResponseEntity.badRequest().body("Admin not found with email: " + email);
+    }
 }
