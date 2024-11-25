@@ -140,4 +140,20 @@ public class AuthenticationController {
         response.put("timestamp", Instant.now());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @PostMapping("/passwordChange")
+    public ResponseEntity<?> passwordChange(@RequestBody RegisterRequestDTO registerRequest, @RequestHeader("X-Referer-Type") String refererType) {
+        System.out.println("X-Referer-Type: " + refererType); // Debugging log
+
+        if ("admin".equalsIgnoreCase(refererType)) {
+            return adminService.handleAdminPasswordChange(registerRequest.getEmail(), registerRequest.getPassword());
+        } else if ("user".equalsIgnoreCase(refererType)) {
+            return userService.userPasswordChange(registerRequest.getEmail(), registerRequest.getPassword());
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body("Unauthorized origin or incorrect path in the request.");
+    }
+
+
 }

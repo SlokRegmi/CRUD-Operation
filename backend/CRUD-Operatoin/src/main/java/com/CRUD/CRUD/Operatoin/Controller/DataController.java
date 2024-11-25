@@ -61,13 +61,17 @@ public class DataController {
         // Return the full response
         return ResponseEntity.ok(response);
     }
-    @GetMapping(path= "/Hello")
-    public String Hello(){
-        return "Hello";
-    }
+
     @PostMapping(path= "/Update")
     public User Update(@RequestBody User user){
         return userService.updateUser(user);
+
+    }
+
+
+    @DeleteMapping(path= "/Delete")
+    public String Delete(@RequestBody User user){
+        return userService.deleteUser(user);
     }
 
 
