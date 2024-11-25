@@ -1,0 +1,11 @@
+.admin-login-window .x-window-body,
+.admin-signup-window .x-window-body {
+    background: url('C:/Users/Administrator/Desktop/EXT JS TRIAL/MyApp/resources/images/admin.jpg') no-repeat center center;
+    background-size: cover;
+}
+
+.user-login-window .x-window-body,
+.user-signup-window .x-window-body {
+    background: url('C:/Users/Administrator/Desktop/EXT JS TRIAL/MyApp/resources/images/user.jpg') no-repeat center center;
+    background-size: cover;
+}
